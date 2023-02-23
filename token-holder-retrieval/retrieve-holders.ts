@@ -1,10 +1,10 @@
-import { ethers, Contract, formatUnits } from "ethers";
+import { ethers } from "ethers";
 
 const provider = new ethers.JsonRpcProvider(
   "https://bsc-dataseed.binance.org/"
 );
 
-const contract = new Contract(
+const contract = new ethers.Contract(
   "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
   [
     "function balanceOf(address a) view returns (uint)",
@@ -14,9 +14,9 @@ const contract = new Contract(
 );
 
 const formattedBalancesPromises = [
-  "0xb5d4f343412dc8efb6ff599d790074d0f1e8d430",
-  "0x0020c5222a24e4a96b720c06b803fb8d34adc0af",
-  "0xd1d8b2aae2ebb2acf013b803bc3c24ca1303a392",
+  "0xef4b64a5ef44bd7a9a230365ea6920413535cbdb",
+  "0x0caa2a051d13d757f751d7b128e19b1984a0bb51",
+  "0x3f10f5b2709ac83d999f090e73babd3cd8df1416",
 ].map(async (address) => {
   const balance = await contract.balanceOf(address);
   const decimals = await contract.decimals();
@@ -26,7 +26,7 @@ const formattedBalancesPromises = [
 
   return [
     address,
-    currencyFormatter.format(Number(formatUnits(balance, decimals))),
+    currencyFormatter.format(Number(ethers.formatUnits(balance, decimals))),
   ];
 });
 
